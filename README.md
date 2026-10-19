@@ -1,1 +1,3 @@
-# dns-paso-a-paso
+# Configuración DNS
+
+Autor: Jesús Caballero
