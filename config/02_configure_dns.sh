@@ -1,6 +1,8 @@
+
 #!/bin/bash
 set -e
 
+# Configurar las opciones del servidor DNS
 cat > /etc/bind/named.conf.options <<'EOF'
 acl confiables {
     127.0.0.1;
@@ -18,6 +20,7 @@ options {
 };
 EOF
 
+# Declarar las zonas directa e inversa
 cat > /etc/bind/named.conf.local <<'EOF'
 zone "jesuscm11.test" {
     type master;
@@ -30,38 +33,19 @@ zone "56.168.192.in-addr.arpa" {
 };
 EOF
 
-cat > /var/lib/bind/jesuscm11.test.dns <<'EOF'
-$TTL 86400
-@ IN SOA debian.jesuscm11.test. admin.jesuscm11.test. (
-    2026102001
-    3600
-    1800
-    604800
-    86400
-)
-@ IN NS debian.jesuscm11.test.
-debian IN A 192.168.56.10
-web IN CNAME debian.jesuscm11.test.
-@ IN TXT "jesuscm11"
-EOF
+# Copiar los archivos de zona desde la carpeta files del proyecto
+cp /vagrant/files/jesuscm11.test.dns /var/lib/bind/jesuscm11.test.dns
+cp /vagrant/files/jesuscm11.test.rev /var/lib/bind/jesuscm11.test.rev
 
-cat > /var/lib/bind/jesuscm11.test.rev <<'EOF'
-$TTL 86400
-@ IN SOA debian.jesuscm11.test. admin.jesuscm11.test. (
-    2026102001
-    3600
-    1800
-    604800
-    86400
-)
-@ IN NS debian.jesuscm11.test.
-10 IN PTR debian.jesuscm11.test.
-EOF
-
+# Asignar permisos al usuario de BIND
 chown bind:bind /var/lib/bind/jesuscm11.test.dns /var/lib/bind/jesuscm11.test.rev
 
+# Validar la configuración y las zonas
 named-checkconf
 named-checkzone jesuscm11.test /var/lib/bind/jesuscm11.test.dns
 named-checkzone 56.168.192.in-addr.arpa /var/lib/bind/jesuscm11.test.rev
 
+# Reiniciar el servidor DNS
 systemctl restart named
+
+echo "Configuracion DNS completada correctamente"

@@ -1,0 +1,10 @@
+$TTL 86400
+@ IN SOA debian.jesuscm11.test. admin.jesuscm11.test. (
+    2026102001
+    3600
+    1800
+    604800
+    86400
+)
+@ IN NS debian.jesuscm11.test.
+10 IN PTR debian.jesuscm11.test.

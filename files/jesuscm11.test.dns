@@ -1,0 +1,12 @@
+$TTL 86400
+@ IN SOA debian.jesuscm11.test. admin.jesuscm11.test. (
+    2026102001
+    3600
+    1800
+    604800
+    86400
+)
+@ IN NS debian.jesuscm11.test.
+debian IN A 192.168.56.10
+web IN CNAME debian.jesuscm11.test.
+@ IN TXT "jesuscm11"
