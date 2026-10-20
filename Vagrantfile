@@ -1,4 +1,4 @@
-Vagrant.configure("2") do |config|    
+Vagrant.configure("2") do |config|
   config.vm.box = "debian/bookworm64"
   config.vm.hostname = "debian"
 
@@ -10,7 +10,6 @@ Vagrant.configure("2") do |config|
     vb.cpus = 1
   end
 
-  config.vm.provision "shell", inline: <<-SHELL
-    apt-get update
-  SHELL
+  config.vm.provision "shell", path: "config/01_install_dns.sh"
+  config.vm.provision "shell", path: "config/02_configure_dns.sh"
 end
