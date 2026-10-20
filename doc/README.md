@@ -120,3 +120,15 @@ Todas las pruebas DNS han terminado correctamente.
 Se ha desplegado un servidor DNS con BIND9 mediante Vagrant y VirtualBox. Las zonas directa e inversa se validan correctamente y las consultas de los registros A, CNAME, TXT y PTR devuelven los resultados esperados.
 
 La configuración y las pruebas se encuentran automatizadas en los scripts del proyecto.
+
+## 7. Solución de problemas
+
+Si el servidor DNS no responde, se pueden realizar las siguientes comprobaciones:
+
+1. Comprobar que la máquina virtual está iniciada con `vagrant status`.
+2. Verificar la configuración de BIND9 con `sudo named-checkconf`.
+3. Consultar el estado del servicio con `sudo systemctl status bind9`.
+4. Revisar los registros de la zona directa e inversa con `named-checkzone`.
+5. Ejecutar de nuevo las pruebas con `sudo bash /vagrant/config/03_test_dns.sh`.
+
+Si se modifica un archivo de zona, hay que actualizar su número de serie y volver a validar la configuración antes de recargar BIND9.
